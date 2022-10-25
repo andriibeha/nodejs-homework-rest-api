@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const logger = require('morgan');
-
+const mongoose = require("mongoose");
+require("dotenv").config(); //Library for .env file (security your password, key...)
 
 const contactsRouter = require('./routes/api/contacts');
 
