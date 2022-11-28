@@ -4,6 +4,7 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const path = require("path");
 const multer = require("multer");
+const fs = require("fs/promises");
 require("dotenv").config(); //Library for .env file (security your password, key...)
 const authRouter = require("./routes/api/auth");
 const contactsRouter = require("./routes/api/contacts");
@@ -15,6 +16,7 @@ const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public"));
 
 const tempDir = path.join(__dirname, "temp");
 
