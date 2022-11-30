@@ -3,7 +3,7 @@ const { User } = require("../models/user");
 const { SECRET_KEY } = process.env;
 const RequstError = require("../helpers/RequstError");
 
-const authenticate = async (rea, res, next) => {
+const authenticate = async (req, res, next) => {
   try {
     const { authorization = "" } = req.headers;
 

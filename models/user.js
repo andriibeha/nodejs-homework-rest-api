@@ -18,6 +18,10 @@ const userSchema = new Schema(
       require: true,
       minlength: 6,
     },
+    avatarURL: {
+      type: String,
+      require: true,
+    },
   },
   { versionKey: false }
 );
