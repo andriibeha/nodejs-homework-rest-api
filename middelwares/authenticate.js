@@ -20,6 +20,7 @@ const authenticate = async (req, res, next) => {
       if (!user) {
         throw Error("Unautorized");
       }
+      req.user = user;
       next();
     } catch (error) {
       throw RequstError(401, error.message);
