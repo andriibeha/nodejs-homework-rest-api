@@ -1,15 +1,16 @@
 const express = require("express");
-const cors = require("cors");
 const logger = require("morgan");
-const mongoose = require("mongoose");
+const cors = require("cors");
 const fs = require("fs/promises");
-require("dotenv").config(); //Library for .env file (security your password, key...)
-const authRouter = require("./routes/api/auth");
+const moment = require("moment");
+
+require("dotenv").config();
+
 const contactsRouter = require("./routes/api/contacts");
+const authRouter = require("./routes/api/auth");
+const usersRouter = require("./routes/api/users");
 
 const app = express();
-
-console.log("HW06");
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
@@ -18,10 +19,18 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
+app.use(async (req, res, next) => {
+  const { method, url } = req;
+  const date = moment().format("DD-MM-YYYY_hh:mm:ss");
+  await fs.appendFile("server.log", `\n${method} ${url} ${date}`);
+  next();
+});
+
 app.use("/api/auth", authRouter);
 app.use("/api/contacts", contactsRouter);
+app.use("/api/users", usersRouter);
 
-app.use((_, res) => {
+app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
 });
 

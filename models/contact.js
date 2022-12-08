@@ -1,60 +1,24 @@
 const { Schema, model } = require("mongoose");
-const Joi = require("joi");
-const { handleSaveError } = require("../helpers");
 
 const contactSchema = new Schema(
   {
-    name: {
-      type: String,
-      required: [true, "Set name for contact"],
-    },
+    name: { type: String, required: [true, "Set name for contact"] },
     email: {
       type: String,
+      unique: true,
+      required: [true, "Email is required"],
     },
-    phone: {
-      type: String,
-    },
-    favorite: {
-      type: Boolean,
-      default: false,
-    },
+    phone: { type: String, required: [true, "Enter the phone number, please"] },
+    favorite: { type: Boolean, default: false },
     owner: {
       type: Schema.Types.ObjectId,
+      required: true,
       ref: "user",
     },
   },
-  { versionKey: false }
+  { versionKey: false, timestamps: true }
 );
-
-contactSchema.post("save", handleSaveError);
-
-const addSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string(),
-  phone: Joi.string(),
-  favorite: Joi.boolean(),
-});
-
-const updateScema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string(),
-  phone: Joi.string(),
-  favorite: Joi.boolean(),
-}).min(1);
-
-const updateFavoriteShema = Joi.object({
-  favorite: Joi.boolean().required(),
-});
-
-const schemas = {
-  addSchema,
-  updateScema,
-  updateFavoriteShema,
-};
 
 const Contact = model("contact", contactSchema);
 
-module.exports = {
-  Contact,
-  schemas,
-};
+module.exports = Contact;

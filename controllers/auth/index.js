@@ -1,9 +1,6 @@
 const register = require("./register");
 const login = require("./login");
-const updateAvatar = require("./updateAvatar");
+const verifyEmail = require("./verifyEmail");
+const resendVerifyEmail = require("./resendVerifyEmail");
 
-module.exports = {
-  register,
-  login,
-  updateAvatar
-};
+module.exports = { register, login, verifyEmail, resendVerifyEmail };

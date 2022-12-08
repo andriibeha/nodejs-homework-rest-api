@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node HW</title>
+</head>
+
+<body>
+    <form id="avatar-form" enctype="multipart/form-data">
+        <input name='avatar' type="file" multiple />
+    </form>
+    <button type="submit">add avatar</button>
+</body>
+<script>
+    const form = document.getElementById('avatar-form');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const { avatar } = this.elements;
+        const data = FormData();
+        data.append('avatar', avatar.files[0])
+
+    })
+</script>
+
+</html>

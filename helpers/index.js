@@ -1,9 +1,5 @@
-const RequestError = require("./RequstError");
-const ctrlWrapper = require("./ctrlWrapper");
-const handleSaveError = require("./handleSaveError");
+const RequestError = require("./RequestError");
+const createVerifyEmail = require("./createEmail");
+const sendEmailVerify = require("./sendEmailVerify");
 
-module.exports = {
-  RequestError,
-  ctrlWrapper,
-  handleSaveError,
-};
+module.exports = { RequestError, createVerifyEmail, sendEmailVerify };

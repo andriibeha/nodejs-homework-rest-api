@@ -1,29 +1,20 @@
 const express = require("express");
-const router = express.Router();
-const ctrl = require("../../controllers/auth");
-const { ctrlWrapper } = require("../../helpers");
-const { validateBody, upload, authenticate } = require("../../middelwares");
+const { validation, ctrlWrapper } = require("../../middlewares");
 const { schemas } = require("../../models/user");
+const { auth } = require("../../controllers");
 
-//signup
-router.post(
-  "/register",
-  validateBody(schemas.registerSchema),
-  ctrlWrapper(ctrl.register)
-);
+const { register, login, verifyEmail, resendVerifyEmail } = auth;
+const { registerSchema, loginSchema, verifyEmailSchema } = schemas;
+const validateRegister = validation(registerSchema);
+const validateLogin = validation(loginSchema);
+const validateVerifyEmail = validation(verifyEmailSchema);
 
-//signin
-router.post(
-  "/login",
-  validateBody(schemas.loginSchema),
-  ctrlWrapper(ctrl.login)
-);
+const router = express.Router();
 
-router.patch(
-  "/avatars",
-  authenticate,
-  upload.single("avatar"),
-  ctrlWrapper(ctrl.updateAvatar)
-);
+router.post("/login", validateLogin, ctrlWrapper(login));
+router.post("/signup", validateRegister, ctrlWrapper(register));
+
+router.get("/verify/:verificationToken", ctrlWrapper(verifyEmail));
+router.post("/verify", validateVerifyEmail, ctrlWrapper(resendVerifyEmail));
 
 module.exports = router;
